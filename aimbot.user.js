@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Shellshock.io Aimbot
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  Destroy those noobz. Consider subscribing, gaming gear giveaways every 50 subs! https://bit.ly/BayMaxYT
 // @author       BayMax YT https://bit.ly/BayMaxYT
 // @match        *://shellshock.io/*
@@ -20,7 +20,7 @@ class Hack {
         return Math.hypot(dx, dy, dz);
     }
 
-    static inView(player) { 
+    static inView(player) {
         return player.playing &&
             player.actor.mesh.isVisible &&
             player.actor.head.isVisible &&
@@ -61,4 +61,33 @@ class Hack {
             me.yaw = yaw;
         }
     }
+
+    static patchHTML(html, game) {
+        html = html.replace(/<script src=".*?shellshock\.min\.js.*?"><\/script>/, '<script>' + game + '</script>');
+        return html;
+    }
+
+    static patchGame(code) {
+        code = code.replace(/var stateBufferSize = 256;/, '$& window.weapons = classes.map(c => c.weapon);');
+        code = code.replace(/deltaStart = deltaNow;/, '$& Hack.handleUpdate(players);');
+        return code;
+    }
+}
+
+(async function () {
+    const htmlRes = await fetch('https://shellshock.io');
+    const html = await htmlRes.text();
+
+    const gameURL = html.match(/src="(.*?shellshock\.min\.js.*?)"/)[1];
+    const gameRes = await fetch(gameURL);
+    const code = await gameRes.text();
+
+    let game = Hack.patchGame(code);
+    let page = Hack.patchHTML(html, game);
+
+    window.Hack = Hack;
+
+    document.open();
+    document.write(page);
+    document.close();
 })();
