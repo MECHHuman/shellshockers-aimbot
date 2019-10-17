@@ -1,12 +1,14 @@
 // ==UserScript==
 // @name         Shellshock.io Aimbot
 // @namespace    http://tampermonkey.net/
-// @version      0.5
+// @version      1.0
 // @description  Destroy those noobz. Consider subscribing, gaming gear giveaways every 50 subs! https://bit.ly/BayMaxYT
 // @author       BayMax YT https://bit.ly/BayMaxYT
 // @match        *://shellshock.io/*
 // @run-at       document-start
 // @supportURL   https://github.com/ZeWhiteHatHacker/shellshockers-aimbot/issues
+// @updateURL    https://github.com/ZeWhiteHatHacker/shellshockers-aimbot/raw/master/aimbot.user.js
+// @homepageURL  https://bit.ly/BayMaxYT
 // @grant        none
 // ==/UserScript==
 
